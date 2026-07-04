@@ -15,7 +15,10 @@ _client=None
 def _get_client()->Groq:
     global _client
     if _client is None:
-        api_key=os.getenv('GROQ_API_KEY')
+        print("=== ENTERED _get_client ===")
+        api_key = os.getenv("GROQ_API_KEY")
+        print("API KEY EXISTS:", bool(api_key))
+        
 
         if not api_key:
             raise ValueError("GROQ_API_KEY environment variable not set")
@@ -115,7 +118,7 @@ def parse_resume(raw_text: str)->Dict:
     raw_response=_call_groq(client, RESUME_SYSTEM_PROMPT, prompt)
     result=_try_parse_json(raw_response)
 
-    if result is None:
+    if result is not None:
         return _validate_resume_result(result)
     
 

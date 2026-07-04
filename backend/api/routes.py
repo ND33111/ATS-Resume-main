@@ -27,24 +27,39 @@ async def analyze_resume(
     job_description: str = Form('', description='Job description text (optional)'),
     user_id: str = Depends(get_current_user),
 ):
+    print("1. ENTERED analyze_resume")
+
     warnings: List[str] = []
 
-
-    nlp      = request.app.state.nlp
+    print("2. Before loading models")
+    nlp = request.app.state.nlp
     embedder = request.app.state.embedder
-
+    print("3. Models loaded")
 
     try:
+        print("4. Before resume.read()")
         file_bytes = await resume.read()
-        filename   = resume.filename or 'resume'
+        print("5. resume.read() completed")
 
-        from backend.services.resume_parser import (
-            FileParsingError,
-            FileValidationError,
-            parse_resume_file,
-        )
+        filename = resume.filename or "resume"
+        print("6. Filename:", filename)
+
+        try:
+            from backend.services.resume_parser import (
+                FileParsingError,
+                FileValidationError,
+                parse_resume_file,
+            )
+            print("7. Imported resume_parser")
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            print("IMPORT ERROR:", repr(e))
+            raise
+        print("7. Imported resume_parser")
 
         resume_text, _metadata = parse_resume_file(file_bytes, filename)
+        print("8. parse_resume_file completed")
         logger.info(f"Parsed '{filename}': {len(resume_text)} chars extracted")
 
     except Exception as exc:
@@ -57,7 +72,7 @@ async def analyze_resume(
     #Full Analysis Pipeline 
     try:
         from backend.services.resume_analyzer import analyze_full_resume
-        
+        print("===== CALLING analyze_full_resume =====")
         result = analyze_full_resume(
             resume_text=resume_text,
             nlp=nlp,
