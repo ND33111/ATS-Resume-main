@@ -196,9 +196,11 @@ async def generate_pdf(
             }
         )
     except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print("PDF ERROR:", repr(e))
         logger.error(f'Failed to generate PDF: {e}')
         raise HTTPException(status_code=500, detail=f"Failed to generate PDF: {e}")
-    
 
 @router.get('/history/{analysis_id}/pdf')
 async def generate_history_pdf(
