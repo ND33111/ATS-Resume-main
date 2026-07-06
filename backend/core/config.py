@@ -19,7 +19,7 @@ APP_DESCRIPTION='analyse resumes against job description using nlp + ml'
 ALLOWED_ORIGINS = [
     "http://localhost:8501"
     "http://localhost:5173"
-    "https://ats-resume-main-pnqxtbsgs3nnefsdljji3p.streamlit.app/"
+    "http://localhost:8000"
 ]  
 
 #file 
