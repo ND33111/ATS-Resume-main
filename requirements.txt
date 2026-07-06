@@ -9,7 +9,8 @@
 # WeasyPrint (used for PDF export) also needs system libraries on Linux:
 #     sudo dnf install -y cairo pango gdk-pixbuf2 libffi    # Fedora
 #     sudo apt install -y libcairo2 libpango-1.0-0 libpangoft2-1.0-0 libffi-dev  # Debian/Ubuntu
-
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.10.0
 # ── Frontend ──
 streamlit>=1.32
 requests>=2.31
